@@ -31,7 +31,7 @@ export default function List() {
     db.transaction(
       tx => {
           tx.executeSql(
-              `insert into shoplist ( title, status ) values ('${name}', ${false})`
+              `insert into shoplist ( title, status ) values ('${title}', ${false})`
           );
       },
       error => { console.log(error) }
@@ -74,12 +74,14 @@ export default function List() {
         <Icon name='add-circle-outline' size={40} color={GREEN} onPress={add}/>
       </View>
 
-      <View style={styles.item}>
+      {shoplist.length ? <View style={styles.item}>
         <TouchableOpacity style={styles.itemTitle} onPress={buy}>
           <Text style={styles.itemTxt}>123123123 Название</Text>
         </TouchableOpacity>
         <Icon name='remove-circle-outline' size={40} color={RED} onPress={del}/>
-      </View>
+      </View> : <Text>Список пуст</Text>
+      }
+      
     </View>
   );
 }
