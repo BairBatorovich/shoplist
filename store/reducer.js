@@ -1,4 +1,4 @@
-import { DEL, ADD, BUY, UNBUY } from './constants';
+import { DEL, ADD, BUY, UNBUY, CREATE_SHOP_LIST } from './constants';
 
 const defaultState = {
     shoplist: []
@@ -6,7 +6,7 @@ const defaultState = {
 
 const reducer = (state = defaultState, action) => {
     switch (action.type) {
-        case ADD:
+        case CREATE_SHOP_LIST:
             return {
                 ...state,
                 shoplist: action.shoplist
