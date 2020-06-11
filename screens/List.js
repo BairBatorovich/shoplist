@@ -36,7 +36,6 @@ export default function List() {
 
   //Добавление в список
   const add = (title) => {
-    console.log(title)
     db.transaction(
       tx => {
         tx.executeSql(
@@ -45,6 +44,8 @@ export default function List() {
       },
       error => { console.log(error) }
     );
+    readDB()
+    setTitle('')
   }
 
   const createDB = () => {
@@ -80,7 +81,7 @@ export default function List() {
     <View style={styles.list}>
 
       <View style={styles.add}>
-        <TextInput style={styles.addTxt} onChangeText={text => setTitle(text)} />
+        <TextInput style={styles.addTxt} onChangeText={text => setTitle(text)} value={title}/>
         <Icon name='add-circle-outline' size={30} color={GREEN} onPress={() => add(title)} />
       </View>
 
