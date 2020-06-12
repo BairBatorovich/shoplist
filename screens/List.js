@@ -79,6 +79,7 @@ export default function List() {
   )
   return (
     <View style={styles.list}>
+      <View style={styles.sb}/>
 
       <View style={styles.add}>
         <TextInput style={styles.addTxt} onChangeText={text => setTitle(text)} value={title}/>
