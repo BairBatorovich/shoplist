@@ -6,23 +6,22 @@ import * as SQLite from 'expo-sqlite';
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
 import styles from './styles';
-import { GREEN, RED, WHITE } from './constants';
+import { GREEN, RED, WHITE, GRAY } from './constants';
 import { createShopList } from '../store/action'
 
 const db = SQLite.openDatabase("db.db");
 
 export default function List() {
   const [title, setTitle] = useState('');
+  const [emptyField, setEmptyField] = useState(false);
 
   const shoplist = useSelector(state => state.reducer.shoplist);
   const dispatch = useDispatch();
 
   const buy = () => {
-    console.log("kuplen")
   }
   //Удаление позиции из списка
   const del = (id) => {
-    console.log("delete")
     db.transaction(
       tx => {
         tx.executeSql(
@@ -36,16 +35,21 @@ export default function List() {
 
   //Добавление в список
   const add = (title) => {
-    db.transaction(
-      tx => {
-        tx.executeSql(
-          `insert into shoplist (title, status) values ('${title}', '${false}')`
-        );
-      },
-      error => { console.log(error) }
-    );
-    readDB()
-    setTitle('')
+    if (title !== '') {
+      db.transaction(
+        tx => {
+          tx.executeSql(
+            `insert into shoplist (title, status) values ('${title}', '${false}')`
+          );
+        },
+        error => { console.log(error) }
+      );
+      readDB();
+      setTitle('');
+      setEmptyField(false);
+    } else {
+      setEmptyField(true);
+    }
   }
 
   const createDB = () => {
@@ -64,7 +68,7 @@ export default function List() {
         tx.executeSql(
           `select * from shoplist`,
           [],
-          (_, { rows }) => dispatch(createShopList(rows._array)) );
+          (_, { rows }) => dispatch(createShopList(rows._array)));
       },
       error => { console.log(error) }
     );
@@ -79,10 +83,16 @@ export default function List() {
   )
   return (
     <View style={styles.list}>
-      <View style={styles.sb}/>
+      <View style={styles.sb} />
 
       <View style={styles.add}>
-        <TextInput style={styles.addTxt} onChangeText={text => setTitle(text)} value={title}/>
+        <TextInput
+          style={styles.addTxt}
+          onChangeText={text => setTitle(text)}
+          value={title}
+          placeholder='Надо купить'
+          placeholderTextColor={emptyField ? RED : GRAY}
+        />
         <Icon name='add-circle-outline' size={30} color={GREEN} onPress={() => add(title)} />
       </View>
 
