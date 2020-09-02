@@ -1,13 +1,17 @@
 {
   "expo": {
-    "name": "shoppingList",
+    "name": "Список покупок",
     "slug": "shoppinglist",
+    "android": {
+      "package": "com.bair.shoppinglist",
+      "versionCode": 1
+    },
     "platforms": [
       "ios",
       "android",
       "web"
     ],
-    "version": "1.0.0",
+    "version": "0.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
